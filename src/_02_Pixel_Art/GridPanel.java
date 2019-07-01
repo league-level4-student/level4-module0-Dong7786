@@ -20,7 +20,6 @@ public class GridPanel extends JPanel{
 	Pixel[][] p;
 	
 	private Color color;
-	private Object mouseX;
 	
 	public GridPanel(int w, int h, int r, int c) {
 		this.windowWidth = w;
@@ -56,7 +55,7 @@ public class GridPanel extends JPanel{
 	public void clickPixel(int mouseX, int mouseY) {
 		//5. Use the mouseX and mouseY variables to change the color
 		//   of the pixel that was clicked. *HINT* Use the pixel's dimensions.
-		p[mouseX ][mouseY ].color = color;
+		
 	}
 	
 	@Override
@@ -64,13 +63,6 @@ public class GridPanel extends JPanel{
 		//4. Iterate through the array.
 		//   For every pixel in the list, fill in a rectangle using the pixel's color.
 		//   Then, use drawRect to add a grid pattern to your display.
-		for(int i = 0; i < p.length; i ++) {
-			
-			for(int f = 0; f < p[i].length; f ++) {
-				g.setColor(p[i][f].color);
-				g.fillRect(i, f, pixelWidth, pixelHeight);
-				
-			}
-		}
+		
 	}
 }
