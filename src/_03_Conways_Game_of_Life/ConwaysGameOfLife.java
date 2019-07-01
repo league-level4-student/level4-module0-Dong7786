@@ -69,6 +69,7 @@ public class ConwaysGameOfLife extends JPanel implements ActionListener{
 	boolean run = false;
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		System.out.println("action");
 		if(e.getSource() == startStopButton) {
 			run = !run;
 			if(run) {

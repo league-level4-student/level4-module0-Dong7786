@@ -1,4 +1,5 @@
 package _03_Conways_Game_of_Life;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -15,161 +16,326 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 	private static final long serialVersionUID = 1L;
 	private int cellsPerRow;
 	private int cellSize;
-	
+
 	private Timer timer;
-	
-	//1. Create a 2D array of Cells. Do not initialize it.
+
+	// 1. Create a 2D array of Cells. Do not initialize it.
 	Cell[][] cells;
-	
-	
+
 	public WorldPanel(int w, int h, int cpr) {
 		setPreferredSize(new Dimension(w, h));
 		addMouseListener(this);
 		timer = new Timer(500, this);
 		this.cellsPerRow = cpr;
-	
-		//2. Calculate the cell size.
-		int cellSize = cellsPerRow / w;
-		//3. Initialize the cell array to the appropriate size.
-		cells = new Cell[w][h];
-		//3. Iterate through the array and initialize each cell.
-		//   Don't forget to consider the cell's dimensions when 
-		//   passing in the location.
-		for(int i = 0; i < cells.length; i ++) {
-			
-			for(int k = 0; k < cells[i].length; k++) {
-				
-				cells[i][k] = new Cell(w, h, cellSize);
+
+		// 2. Calculate the cell size.
+		cellSize = cellsPerRow / w;
+		// 3. Initialize the cell array to the appropriate size.
+		cells = new Cell[cpr][cpr];
+		// 3. Iterate through the array and initialize each cell.
+		// Don't forget to consider the cell's dimensions when
+		// passing in the location.
+		for (int i = 0; i < cells.length; i++) {
+
+			for (int k = 0; k < cells[i].length; k++) {
+
+				cells[i][k] = new Cell(i*10, k*10, cellSize);
 			}
 		}
 	}
-	
+
 	public void randomizeCells() {
-		//4. Iterate through each cell and randomly set each
-		//   cell's isAlive memeber to true of false
+		// 4. Iterate through each cell and randomly set each
+		// cell's isAlive memeber to true of false
 		Random rand = new Random();
-		
-		for(int i = 0; i < cells.length; i ++) {
-			
-			for(int k = 0; k < cells[i].length; k ++) {
-				
-				if(rand.nextInt(1) == 0	) {
+
+		for (int i = 0; i < cells.length; i++) {
+
+			for (int k = 0; k < cells[i].length; k++) {
+
+				if (rand.nextInt(2) == 1) {
 					cells[i][k].isAlive = true;
-					
-					
-				}else {
-					
+
+				} else {
+
 					cells[i][k].isAlive = false;
 				}
-				
-				
+
 			}
 		}
 		repaint();
 	}
-	
+
 	public void clearCells() {
-		//5. Iterate through the cells and set them all to dead.
-		for(int i = 0; i < cells.length; i ++) {
-			
-			for(int l = 0; l < cells[i].length; l ++) {
-				
+		// 5. Iterate through the cells and set them all to dead.
+		for (int i = 0; i < cells.length; i++) {
+
+			for (int l = 0; l < cells[i].length; l++) {
+
 				cells[i][l].isAlive = false;
 			}
 		}
 		repaint();
 	}
-	
+
 	public void startAnimation() {
 		timer.start();
 	}
-	
+
 	public void stopAnimation() {
 		timer.stop();
 	}
-	
+
 	public void setAnimationDelay(int sp) {
 		timer.setDelay(sp);
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
-		//6. Iterate through the cells and draw them all
-		for(int i = 0; i > cells.length; i ++) {
-			
-			for(int k = 0 ; k < cells[i].length; i ++) {
-				
+		// 6. Iterate through the cells and draw them all
+		for (int i = 0; i < cells.length; i++) {
+
+			for (int k = 0; k < cells[i].length; k++) {
+
 				cells[i][k].draw(g);
 			}
 		}
-		
-		
+
 		// draws grid
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 	}
-	
-	//advances world one step
+
+	// advances world one step
 	public void step() {
-		//7. iterate through cells and fill in the livingNeighbors array
+		// 7. iterate through cells and fill in the livingNeighbors array
 		// . using the getLivingNeighbors method.
 		int[][] livingNeighbors = new int[cellsPerRow][cellsPerRow];
-		for(int i = 0; i < cells.length; i ++) {
-			
-			for(int k = 0; k < cells[i].length; k ++) {
+		for (int i = 0; i < cells.length; i++) {
+
+			for (int k = 0; k < cells[i].length; k++) {
 				livingNeighbors[i][k] = getLivingNeighbors(i, k);
-				cells[i][k].liveOrDie(livingNeighbors[i][k]);
+
 			}
+
 		}
-		//8. check if each cell should live or die
-	
-		
-		
-		
+		// 8. check if each cell should live or die
+		for (int i = 0; i < cells.length; i++) {
+
+			for (int k = 0; k < cells[i].length; k++) {
+				cells[i][k].liveOrDie(livingNeighbors[i][k]);
+
+			}
+
+		}
+
 		repaint();
 	}
-	
-	//9. Complete the method.
-	//   It returns an int of 8 or less based on how many
-	//   living neighbors there are of the 
-	//   cell identified by x and y
-	public int getLivingNeighbors(int x, int y){
-		int live = 0;  
-		
-		if(cells[x+1][y].isAlive) {
-			live ++;
-			
+
+	// 9. Complete the method.
+	// It returns an int of 8 or less based on how many
+	// living neighbors there are of the
+	// cell identified by x and y
+	public int getLivingNeighbors(int x, int y) {
+		int live = 0;
+
+//upper left corner
+		if (x == 0 && y == 0) {
+			if (cells[x + 1][y].isAlive) {
+				live++;
+
+			}
+			if (cells[x + 1][y + 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x][y + 1].isAlive) {
+				live++;
+
+			}
 		}
-		if(cells[x][y+1].isAlive) {
-			live++;
-			
+//upper right corner
+		else if (x == 49 && y == 0) {
+			if (cells[x - 1][y].isAlive) {
+				live++;
+
+			}
+			if (cells[x - 1][y + 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x][y + 1].isAlive) {
+				live++;
+
+			}
 		}
-		if(cells[x-1][y].isAlive) {
-			live++;
-			
+//lower left corner
+		else if (x == 0 && y == 49) {
+			if (cells[x + 1][y].isAlive) {
+				live++;
+
+			}
+			if (cells[x + 1][y - 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x][y - 1].isAlive) {
+				live++;
+
+			}
+
 		}
-		if(cells[x][y-1].isAlive) {
-			live++;	
-			
+//lower right corner
+		else if (x == 49 && y == 49) {
+			if (cells[x - 1][y].isAlive) {
+				live++;
+
+			}
+			if (cells[x - 1][y - 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x][y - 1].isAlive) {
+				live++;
+
+			}
+
 		}
-		if(cells[x+1][y+1].isAlive) {
-			live++;
-			
+
+//left side
+		else if (x == 0 && y != 0 && y != 49) {
+			if (cells[x + 1][y + 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x + 1][y].isAlive) {
+				live++;
+
+			}
+			if (cells[x + 1][y - 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x][y + 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x][y - 1].isAlive) {
+				live++;
+
+			}
 		}
-		if(cells[x-1][y-1].isAlive) {
-			live++;
-			
+
+//top side
+		else if (y == 0 && x != 0 && x != 49) {
+			if (cells[x - 1][y + 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x][y + 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x + 1][y + 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x - 1][y].isAlive) {
+				live++;
+
+			}
+			if (cells[x + 1][y].isAlive) {
+				live++;
+
+			}
+
 		}
-		if(cells[x+1][y-1].isAlive) {
-			live++;
-			
+//right side
+		else if (x == 49 && y != 0 && y != 49) {
+			if (cells[x - 1][y - 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x - 1][y].isAlive) {
+				live++;
+
+			}
+			if (cells[x - 1][y + 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x][y - 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x][y + 1].isAlive) {
+				live++;
+
+			}
+
 		}
-		if(cells[x-1][y+1].isAlive) {
-			live++;
-			
+//bottom side
+		else if (y == 49 && x != 0 && x != 49) {
+			if (cells[x + 1][y - 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x][y - 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x - 1][y - 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x - 1][y].isAlive) {
+				live++;
+
+			}
+			if (cells[x + 1][y].isAlive) {
+				live++;
+
+			}
+
 		}
-		
-		
+
+//other
+		else if (x != 0 && x != 49 && y != 0 && y != 49) {
+
+			if (cells[x + 1][y].isAlive) {
+				live++;
+
+			}
+			if (cells[x][y + 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x - 1][y].isAlive) {
+				live++;
+
+			}
+			if (cells[x][y - 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x + 1][y + 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x - 1][y - 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x + 1][y - 1].isAlive) {
+				live++;
+
+			}
+			if (cells[x - 1][y + 1].isAlive) {
+				live++;
+
+			}
+		}
+
 		return live;
 	}
 
@@ -181,35 +347,33 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		//10. Use e.getX() and e.getY() to determine
-		//    which cell is clicked. Then toggle
-		//    the isAlive variable for that cell.
-		cells[e.getX()][e.getY()].isAlive =! cells[e.getX()][e.getY()].isAlive;
-		
-		
-		
+		// 10. Use e.getX() and e.getY() to determine
+		// which cell is clicked. Then toggle
+		// the isAlive variable for that cell.
+		cells[e.getX() / 10][e.getY() / 10].isAlive = !cells[e.getX() / 10][e.getY() / 10].isAlive;
+
 		repaint();
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		step();		
+		step();
 	}
 }
