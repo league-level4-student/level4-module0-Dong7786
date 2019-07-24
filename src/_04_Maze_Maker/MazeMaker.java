@@ -13,7 +13,7 @@ public class MazeMaker {
 
 	private static Random randGen = new Random();
 	private static Stack<Cell> uncheckedCells = new Stack<Cell>();
-
+	
 	public static Maze generateMaze(int w, int h) {
 		width = w;
 		height = h;
@@ -30,218 +30,24 @@ public class MazeMaker {
 	// 6. Complete the selectNextPathMethod
 	private static void selectNextPath(Cell currentCell) {
 
-		ArrayList<Cell> lonely = new ArrayList<Cell>();
+		
 		// A. mark cell as visited
 		currentCell.setBeenVisited(true);
 
-		if (currentCell.getX() == 0 && currentCell.getY() == 0) {
-			if (!(maze.getCell(currentCell.getX() + 1, currentCell.getY()).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() + 1, currentCell.getY()));
-
-			}
-			if (!(maze.getCell(currentCell.getX() + 1, currentCell.getY() + 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() + 1, currentCell.getY() + 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX(), currentCell.getY() + 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX(), currentCell.getY() + 1));
-
-			}
-		}
-//upper right corner
-		else if (currentCell.getX() == width - 1 && currentCell.getY() == 0) {
-			if (!(maze.getCell(currentCell.getX() - 1, currentCell.getY()).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() - 1, currentCell.getY()));
-
-			}
-			if (!(maze.getCell(currentCell.getX() - 1, currentCell.getY() + 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() - 1, currentCell.getY() + 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX(), currentCell.getY() - 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX(), currentCell.getY() - 1));
-
-			}
-		}
-//lower left corner
-		else if (currentCell.getX() == 0 && currentCell.getY() == height) {
-			if (!(maze.getCell(currentCell.getX() + 1, currentCell.getY()).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() + 1, currentCell.getY()));
-
-			}
-			if (!(maze.getCell(currentCell.getX() + 1, currentCell.getY() - 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() + 1, currentCell.getY() - 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX(), currentCell.getY() - 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX(), currentCell.getY() - 1));
-
-			}
-
-		}
-//lower right corner
-		else if (currentCell.getX() == width && currentCell.getY() == height) {
-			if (!(maze.getCell(currentCell.getX() - 1, currentCell.getY()).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() - 1, currentCell.getY()));
-
-			}
-			if (!(maze.getCell(currentCell.getX() - 1, currentCell.getY() - 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() - 1, currentCell.getY() - 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX(), currentCell.getY() - 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX(), currentCell.getY() - 1));
-
-			}
-
-		}
-
-//left side
-		else if (currentCell.getX() == 0 && currentCell.getY() != 0 && currentCell.getY() != height - 1) {
-			if (!(maze.getCell(currentCell.getX() + 1, currentCell.getY() + 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() + 1, currentCell.getY() + 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX() + 1, currentCell.getY()).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() + 1, currentCell.getY()));
-
-			}
-			if (!(maze.getCell(currentCell.getX() + 1, currentCell.getY() - 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() + 1, currentCell.getY() - 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX(), currentCell.getY() + 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX(), currentCell.getY() + 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX(), currentCell.getY() - 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX(), currentCell.getY() - 1));
-
-			}
-		}
-
-//top side
-		else if (currentCell.getY() == 0 && currentCell.getX() != 0 && currentCell.getX() != width - 1) {
-			if (!(maze.getCell(currentCell.getX() - 1, currentCell.getY() + 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() - 1, currentCell.getY() + 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX(), currentCell.getY() + 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX(), currentCell.getY() + 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX() + 1, currentCell.getY() + 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() + 1, currentCell.getY() + 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX() - 1, currentCell.getY()).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() - 1, currentCell.getY()));
-
-			}
-			if (!(maze.getCell(currentCell.getX() + 1, currentCell.getY()).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() + 1, currentCell.getY()));
-
-			}
-
-		}
-//right side
-		else if (currentCell.getX() == width - 1 && currentCell.getY() != 0 && currentCell.getY() != height - 1) {
-			if (!(maze.getCell(currentCell.getX() - 1, currentCell.getY() - 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() - 1, currentCell.getY() - 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX() - 1, currentCell.getY()).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() - 1, currentCell.getY()));
-
-			}
-			if (!(maze.getCell(currentCell.getX() - 1, currentCell.getY() + 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() - 1, currentCell.getY() + 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX(), currentCell.getY() - 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX(), currentCell.getY() - 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX(), currentCell.getY() + 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX(), currentCell.getY() + 1));
-
-			}
-
-		}
-//bottom side
-		else if (currentCell.getY() == height - 1 && currentCell.getX() != 0 && currentCell.getX() != width - 1) {
-			if (!(maze.getCell(currentCell.getX() + 1, currentCell.getY() - 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() + 1, currentCell.getY() - 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX(), currentCell.getY() - 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX(), currentCell.getY() - 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX() - 1, currentCell.getY() - 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() - 1, currentCell.getY() - 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX() - 1, currentCell.getY()).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() - 1, currentCell.getY()));
-
-			}
-			if (!(maze.getCell(currentCell.getX() + 1, currentCell.getY()).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() + 1, currentCell.getY()));
-
-			}
-
-		}
-
-//other
-		else if (currentCell.getX() != 0 && currentCell.getX() != width - 1 && currentCell.getY() != 0
-				&& currentCell.getY() != height - 1) {
-
-			if (!(maze.getCell(currentCell.getX() - 1, currentCell.getY()).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() - 1, currentCell.getY()));
-
-			}
-			if (!(maze.getCell(currentCell.getX() + 1, currentCell.getY()).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() + 1, currentCell.getY()));
-
-			}
-			if (!(maze.getCell(currentCell.getX(), currentCell.getY() - 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX(), currentCell.getY() - 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX(), currentCell.getY() + 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX(), currentCell.getY() + 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX() - 1, currentCell.getY() - 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() - 1, currentCell.getY() - 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX() + 1, currentCell.getY() - 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() + 1, currentCell.getY() - 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX() + 1, currentCell.getY() + 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() + 1, currentCell.getY() + 1));
-
-			}
-			if (!(maze.getCell(currentCell.getX() - 1, currentCell.getY() + 1).hasBeenVisited())) {
-				lonely.add(maze.getCell(currentCell.getX() - 1, currentCell.getY() + 1));
-
-			}
-		}
+		
 
 		// C. if has unvisited neighbors,
-		if (lonely.size() > 0) {
+		if (getUnvisitedNeighbors(currentCell).size() > 0) {
 
 			// C1. select one at random.
 			
 			// C2. push it to the stack
-				uncheckedCells.push(lonely.get(randGen.nextInt(lonely.size())));
+				uncheckedCells.push(getUnvisitedNeighbors(currentCell).get(randGen.nextInt(getUnvisitedNeighbors(currentCell).size())));
 			// C3. remove the wall between the two cells
 				removeWalls(currentCell, uncheckedCells.lastElement());
 			// C4. make the new cell the current cell and mark it as visited
 				currentCell = uncheckedCells.pop();
+				
 			// C5. call the selectNextPath method with the current cell
 				selectNextPath(currentCell);
 		}
@@ -269,10 +75,10 @@ public class MazeMaker {
 		if(c1.getX() == c2.getX()) {
 			if(c1.getY() - 1 == c2.getY()) {
 				c1.setNorthWall(false);
-				
+				c2.setSouthWall(false);
 			}else if(c1.getY() + 1 == c2.getY()) {
 				c1.setSouthWall(false);
-				
+				c2.setNorthWall(false);
 			}
 			
 			
@@ -280,9 +86,11 @@ public class MazeMaker {
 		else if(c1.getY() == c2.getY()) {
 			if(c1.getX() - 1 == c2.getX()) {
 				c1.setWestWall(false);
+				c2.setEastWall(false);
 				
 			}else if(c1.getX() + 1 == c2.getX()) {
 				c1.setEastWall(false);
+				c2.setWestWall(false);
 				
 			}
 			
@@ -295,6 +103,27 @@ public class MazeMaker {
 	// Any unvisited neighbor of the passed in cell gets added
 	// to the ArrayList
 	private static ArrayList<Cell> getUnvisitedNeighbors(Cell c) {
-		return null;
+		ArrayList<Cell> lonely = new ArrayList<Cell>();
+		if(c.getX() != 0 && maze.getCell(c.getX() -1, c.getY()).hasBeenVisited() == false) {
+			lonely.add(maze.getCell(c.getX()-1, c.getY()));
+		
+		}
+		if(c.getY() != 0 && maze.getCell(c.getX(), c.getY()-1).hasBeenVisited()	== false) {
+			lonely.add(maze.getCell(c.getX(), c.getY()-1));
+			
+		}
+		if(c.getX() != width -1 && maze.getCell(c.getX() + 1, c.getY()).hasBeenVisited() == false) {
+			lonely.add(maze.getCell(c.getX()+1, c.getY()));
+			
+			
+		}
+		if(c.getY() != height -1 && maze.getCell(c.getX(), c.getY()+1).hasBeenVisited() == false) {
+			lonely.add(maze.getCell(c.getX(), c.getY()+1));
+			
+		}
+
+		
+		
+		return lonely;
 	}
 }
