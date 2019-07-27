@@ -43,10 +43,64 @@ package extras.the_wrong_way_cow;
 
 public class TheWrongWayCow {
 
-    public static int[] findWrongWayCow(final char[][] field) {
-        // Fill in the code to return the x,y coordinate position of the
-        // head (letter 'c') of the wrong way cow!
-        
-        return null;
-    }
+	public static int[] findWrongWayCow(final char[][] field) {
+
+		int[] position = new int[2];
+
+		int up = 0;
+		int down = 0;
+		int left = 0;
+		int right = 0;
+
+		for (int i = 0; i < field.length; i++) {
+
+			for (int k = 0; k < field[i].length; k++) {
+				if (i < field.length-3 && field[i][k] == 'w' && field[i + 1][k] == 'o' && field[i + 2][k] == 'c') {
+					right++;
+
+				} else if (i < field.length-3 && field[i][k] == 'c' && field[i + 1][k] == 'o' && field[i + 2][k] == 'w') {
+					left++;
+
+				} else if (k < field[i].length-3 && field[i][k] == 'w' && field[i][k + 1] == 'o' && field[i][k + 2] == 'c') {
+					up++;
+
+				} else if (k < field[i].length-3 && field[i][k] == 'c' && field[i][k + 1] == 'o' && field[i][k + 2] == 'w') {
+					down++;
+
+				}
+
+			}
+		}
+		
+		
+		System.out.println(up + ", " + down + ", " + left + ", "+ right);
+		for (int i = 0; i < field.length; i++) {
+
+			for (int k = 0; k < field[i].length; k++) {
+				if (i < field.length-3 && field[i][k] == 'w' && field[i + 1][k] == 'o' && field[i + 2][k] == 'c' && right == 1) {
+					position[1] = i+2;
+					position[0] = k;
+
+				} else if (i < field.length-3 && field[i][k] == 'c' && field[i + 1][k] == 'o' && field[i + 2][k] == 'w' && left == 1) {
+					position[1] = i;
+					position[0] = k;
+
+				} else if (k < field[i].length-3 && field[i][k] == 'w' && field[i][k + 1] == 'o' && field[i][k + 2] == 'c' && up == 1) {
+					position[1] = i;
+					position[0] = k+2;
+
+				} else if (k < field[i].length-3 && field[i][k] == 'c' && field[i][k + 1] == 'o' && field[i][k + 2] == 'w' && down == 1) {
+					position[1] = i;
+					position[0] = k;
+
+				}
+
+			}
+		}
+		System.out.println(position[0]+ ", " + position[1]);
+		// Fill in the code to return the x,y coordinate position of the
+		// head (letter 'c') of the wrong way cow!
+
+		return position;
+	}
 }
