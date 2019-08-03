@@ -55,16 +55,16 @@ public class TheWrongWayCow {
 		for (int i = 0; i < field.length; i++) {
 
 			for (int k = 0; k < field[i].length; k++) {
-				if (i < field.length-3 && field[i][k] == 'w' && field[i + 1][k] == 'o' && field[i + 2][k] == 'c') {
+				if (i <= field.length-3 && field[i][k] == 'w' && field[i + 1][k] == 'o' && field[i + 2][k] == 'c') {
 					right++;
 
-				} else if (i < field.length-3 && field[i][k] == 'c' && field[i + 1][k] == 'o' && field[i + 2][k] == 'w') {
+				} else if (i <= field.length-3 && field[i][k] == 'c' && field[i + 1][k] == 'o' && field[i + 2][k] == 'w') {
 					left++;
 
-				} else if (k < field[i].length-3 && field[i][k] == 'w' && field[i][k + 1] == 'o' && field[i][k + 2] == 'c') {
+				} else if (k <= field[i].length-3 && field[i][k] == 'w' && field[i][k + 1] == 'o' && field[i][k + 2] == 'c') {
 					up++;
 
-				} else if (k < field[i].length-3 && field[i][k] == 'c' && field[i][k + 1] == 'o' && field[i][k + 2] == 'w') {
+				} else if (k <= field[i].length-3 && field[i][k] == 'c' && field[i][k + 1] == 'o' && field[i][k + 2] == 'w') {
 					down++;
 
 				}
@@ -77,19 +77,19 @@ public class TheWrongWayCow {
 		for (int i = 0; i < field.length; i++) {
 
 			for (int k = 0; k < field[i].length; k++) {
-				if (i < field.length-3 && field[i][k] == 'w' && field[i + 1][k] == 'o' && field[i + 2][k] == 'c' && right == 1) {
+				if (i <= field.length-3 && field[i][k] == 'w' && field[i + 1][k] == 'o' && field[i + 2][k] == 'c' && right == 1) {
 					position[1] = i+2;
 					position[0] = k;
 
-				} else if (i < field.length-3 && field[i][k] == 'c' && field[i + 1][k] == 'o' && field[i + 2][k] == 'w' && left == 1) {
+				} else if (i <= field.length-3 && field[i][k] == 'c' && field[i + 1][k] == 'o' && field[i + 2][k] == 'w' && left == 1) {
 					position[1] = i;
 					position[0] = k;
 
-				} else if (k < field[i].length-3 && field[i][k] == 'w' && field[i][k + 1] == 'o' && field[i][k + 2] == 'c' && up == 1) {
+				} else if (k <= field[i].length-3 && field[i][k] == 'w' && field[i][k + 1] == 'o' && field[i][k + 2] == 'c' && up == 1) {
 					position[1] = i;
 					position[0] = k+2;
 
-				} else if (k < field[i].length-3 && field[i][k] == 'c' && field[i][k + 1] == 'o' && field[i][k + 2] == 'w' && down == 1) {
+				} else if (k <= field[i].length-3 && field[i][k] == 'c' && field[i][k + 1] == 'o' && field[i][k + 2] == 'w' && down == 1) {
 					position[1] = i;
 					position[0] = k;
 
