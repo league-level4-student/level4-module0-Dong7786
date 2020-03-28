@@ -3,10 +3,19 @@ package _02_Pixel_Art;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import javax.swing.JPanel;
 
-public class GridPanel extends JPanel{
+import _04_Serialization.SaveData;
+
+public class GridPanel extends JPanel implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private int windowWidth;
@@ -18,7 +27,7 @@ public class GridPanel extends JPanel{
 	
 	//1. Create a 2D array of pixels. Do not initialize it yet.
 	Pixel[][] p;
-	
+
 	private Color color;
 	private Object mouseX;
 	
@@ -56,9 +65,11 @@ public class GridPanel extends JPanel{
 	public void clickPixel(int mouseX, int mouseY) {
 		//5. Use the mouseX and mouseY variables to change the color
 		//   of the pixel that was clicked. *HINT* Use the pixel's dimensions.
+		
 		p[mouseX ][mouseY ].color = color;
 	}
 	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		//4. Iterate through the array.
