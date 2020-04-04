@@ -28,13 +28,7 @@ public class PixelArtMaker implements MouseListener{
 		window.pack();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setVisible(true);
-		try {
-			gp = load();
-
-		}catch(Exception e){
-			
-		}
-		
+	
 	}
 
 	public void submitGridData(int w, int h, int r, int c) {
@@ -52,27 +46,7 @@ public class PixelArtMaker implements MouseListener{
 		new PixelArtMaker().start();
 		
 	}
-	private static void save(GridPanel data) {
-		try (FileOutputStream fos = new FileOutputStream(new File("src/_02_Pixel_Art/save")); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-			oos.writeObject(data);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
-	private static GridPanel load() {
-		try (FileInputStream fis = new FileInputStream(new File("src/_02_Pixel_Art/save")); ObjectInputStream ois = new ObjectInputStream(fis)) {
-			return (GridPanel) ois.readObject();
-		} catch (IOException e) {
-			
-			return null;
-		} catch (ClassNotFoundException e) {
-			// This can occur if the object we read from the file is not
-			// an instance of any recognized class
-			e.printStackTrace();
-			return null;
-		}
-	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
@@ -84,7 +58,6 @@ public class PixelArtMaker implements MouseListener{
 		System.out.println(csp.getSelectedColor());
 		gp.clickPixel(e.getX(), e.getY());
 		gp.repaint();
-		save(gp);
 		
 	}
 

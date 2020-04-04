@@ -13,8 +13,6 @@ import java.io.Serializable;
 
 import javax.swing.JPanel;
 
-import _04_Serialization.SaveData;
-
 public class GridPanel extends JPanel implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -43,11 +41,15 @@ public class GridPanel extends JPanel implements Serializable{
 		color = Color.BLACK;
 		
 		setPreferredSize(new Dimension(windowWidth, windowHeight));
-		
+		try {
+			p = load();
+			
+		}catch(Exception E){
 		//2. Initialize the pixel array using the rows and cols variables.
 		p = new Pixel[rows][cols];
 		
 		//3. Iterate through the array and initialize each element to a new pixel.
+		
 		for(int i = 0;i < p.length; i ++) {
 			
 			for(int k = 0; k < p[i].length; k ++) {
@@ -55,6 +57,7 @@ public class GridPanel extends JPanel implements Serializable{
 				p[i][k] = new Pixel(i,k);
 			}
 		}
+	}
 		
 	}
 	
@@ -67,8 +70,30 @@ public class GridPanel extends JPanel implements Serializable{
 		//   of the pixel that was clicked. *HINT* Use the pixel's dimensions.
 		
 		p[mouseX ][mouseY ].color = color;
+		save(p);
+		
 	}
-	
+	private static void save(Pixel[][] pixel) {
+		try (FileOutputStream fos = new FileOutputStream(new File("src/_02_Pixel_Art/save")); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+			oos.writeObject(pixel);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static Pixel[][] load() {
+		try (FileInputStream fis = new FileInputStream(new File("src/_02_Pixel_Art/save")); ObjectInputStream ois = new ObjectInputStream(fis)) {
+			return (Pixel[][]) ois.readObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		} catch (ClassNotFoundException e) {
+			// This can occur if the object we read from the file is not
+			// an instance of any recognized class
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	@Override
 	public void paintComponent(Graphics g) {
